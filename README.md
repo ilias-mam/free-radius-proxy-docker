@@ -11,7 +11,7 @@
     radtest [username] [password] [host] 0 [secretkey]
  ### example
 
-        radtest testing@domain1.com password localhost 0 testing123
+    radtest testing@domain1.com password localhost 0 testing123
 
 ## Configs 
 
