@@ -1,2 +1,2 @@
 # free-radius-proxy-docker
-A lab that is testing conditional proxing based on domain requests. 
+This is a  lab that is testing conditional proxing based on domain requests.
