@@ -22,6 +22,8 @@ You can found all the config files mounted in the docker-compose.yml
 1. - "./configs/radius/radiusd.conf:/etc/raddb/radiusd.conf"
 
 ### Backend
+
+The local users resides on this location 
 1. - "./1configs/radius/users:/etc/raddb/users"
 1. - "./2configs/radius/users:/etc/raddb/users"
 1. - "./3configs/radius/users:/etc/raddb/users"
