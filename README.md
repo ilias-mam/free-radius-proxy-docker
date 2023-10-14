@@ -7,14 +7,15 @@
     Use docker compose yml to deploy localy.
 
 ## Test
-    Use radtest provided by freeradius-utils to test your config radtest [username] [password] [host] 0 [secretkey]
+    Use radtest provided by freeradius-utils to test your config 
+    radtest [username] [password] [host] 0 [secretkey]
  ### example
 
         radtest testing@domain1.com password localhost 0 testing123
 
 ## Configs 
 
-You can found all the config files mounted in the docker-compose.yml
+You can find all the config files mounted in the docker-compose.yml
 
 ### Frontend
 1. - "./configs/radius/users:/etc/raddb/users"
