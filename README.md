@@ -23,6 +23,8 @@ You can found all the config files mounted in the docker-compose.yml
 
 ### Backend
 1. - "./1configs/radius/users:/etc/raddb/users"
+1. - "./2configs/radius/users:/etc/raddb/users"
+1. - "./3configs/radius/users:/etc/raddb/users"
 
 
 # Initial docker compose and repo Source
