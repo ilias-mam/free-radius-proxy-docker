@@ -10,4 +10,4 @@ serial*
 index.txt*
 configs/mysql/master/data
 /dump/
-/data/
+**/data/**

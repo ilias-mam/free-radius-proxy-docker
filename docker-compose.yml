@@ -1,0 +1,179 @@
+version: '3.2'
+
+services:
+#
+#FRRERADIUS DOCKERS
+#
+
+#FRRERADIUS FRONTEND
+  freeradius:
+    image: "2stacks/freeradius"
+    ports:
+      - "1812:1812/udp"
+      - "1813:1813/udp"
+    volumes:
+      - "./configs/radius/users:/etc/raddb/users"
+      - "./configs/radius/proxy.conf:/etc/raddb/proxy.conf"
+      - "./configs/radius/radiusd.conf:/etc/raddb/radiusd.conf"
+    environment:
+      - DB_NAME=radius
+      - DB_HOST=mysql
+      - DB_USER=radius
+      - DB_PASS=radpass
+      - DB_PORT=3306
+      - RADIUS_KEY=testing123
+      - RAD_CLIENTS=10.0.0.0/24
+      - RAD_DEBUG=yes
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    restart: always
+    networks:
+      - backend
+#FRRERADIUS BACKEND1 @domain1.com
+  freeradius1:
+    image: "2stacks/freeradius"
+    ports:
+      - "11812:1812/udp"
+      - "11813:1813/udp"
+    volumes:
+      - "./1configs/radius/users:/etc/raddb/users"
+    environment:
+      - DB_NAME=radius
+      - DB_HOST=mysql1
+      - DB_USER=radius
+      - DB_PASS=radpass
+      - DB_PORT=3306
+      - RADIUS_KEY=testing123
+      - RAD_CLIENTS=10.0.0.0/24
+      - RAD_DEBUG=yes
+    depends_on:
+      - mysql1
+    links:
+      - mysql1
+    restart: always
+    networks:
+      - backend
+#FRRERADIUS BACKEND2 @domain2.com
+  freeradius2:
+    image: "2stacks/freeradius"
+    ports:
+      - "21812:1812/udp"
+      - "21813:1813/udp"
+    volumes:
+      - "./2configs/radius/users:/etc/raddb/users"
+    environment:
+      - DB_NAME=radius
+      - DB_HOST=mysql2
+      - DB_USER=radius
+      - DB_PASS=radpass
+      - DB_PORT=3306
+      - RADIUS_KEY=testing123
+      - RAD_CLIENTS=10.0.0.0/24
+      - RAD_DEBUG=yes
+    depends_on:
+      - mysql2
+    links:
+      - mysql2
+    restart: always
+    networks:
+      - backend
+#FRRERADIUS BACKEND3 @domain3.com
+  freeradius3:
+    image: "2stacks/freeradius"
+    ports:
+      - "31812:1812/udp"
+      - "31813:1813/udp"
+    volumes:
+      - "./3configs/radius/users:/etc/raddb/users"
+    environment:
+      - DB_NAME=radius
+      - DB_HOST=mysql3
+      - DB_USER=radius
+      - DB_PASS=radpass
+      - DB_PORT=3306
+      - RADIUS_KEY=testing123
+      - RAD_CLIENTS=10.0.0.0/24
+      - RAD_DEBUG=yes
+    depends_on:
+      - mysql3
+    links:
+      - mysql3
+    restart: always
+    networks:
+      - backend
+
+#
+#MYSQL DOCKERS
+#
+
+#MYSQL FOR FRONTEND FREERADIUS
+  mysql:
+    image: "mysql"
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - "./configs/mysql/master/data:/var/lib/mysql"
+      - "./configs/mysql/master/conf.d:/etc/mysql/conf.d"
+      - "./configs/mysql/radius.sql:/docker-entrypoint-initdb.d/radius.sql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=radius
+      - MYSQL_USER=radius
+      - MYSQL_PASSWORD=radpass
+      - MYSQL_DATABASE=radius
+    restart: always
+    networks:
+      - backend
+#MYSQL FOR BACKEND FREERADIUS 1
+  mysql1:
+    image: "mysql"
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - "./1configs/mysql/master/data:/var/lib/mysql"
+      - "./1configs/mysql/master/conf.d:/etc/mysql/conf.d"
+      - "./1configs/mysql/radius.sql:/docker-entrypoint-initdb.d/radius.sql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=radius
+      - MYSQL_USER=radius
+      - MYSQL_PASSWORD=radpass
+      - MYSQL_DATABASE=radius
+    restart: always
+    networks:
+      - backend
+#MYSQL FOR BACKEND FREERADIUS 2
+  mysql2:
+    image: "mysql"
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - "./2configs/mysql/master/data:/var/lib/mysql"
+      - "./2configs/mysql/master/conf.d:/etc/mysql/conf.d"
+      - "./2configs/mysql/radius.sql:/docker-entrypoint-initdb.d/radius.sql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=radius
+      - MYSQL_USER=radius
+      - MYSQL_PASSWORD=radpass
+      - MYSQL_DATABASE=radius
+    restart: always
+    networks:
+      - backend
+#MYSQL FOR BACKEND FREERADIUS 3
+  mysql3:
+    image: "mysql"
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - "./3configs/mysql/master/data:/var/lib/mysql"
+      - "./3configs/mysql/master/conf.d:/etc/mysql/conf.d"
+      - "./3configs/mysql/radius.sql:/docker-entrypoint-initdb.d/radius.sql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=radius
+      - MYSQL_USER=radius
+      - MYSQL_PASSWORD=radpass
+      - MYSQL_DATABASE=radius
+    restart: always
+    networks:
+      - backend
+networks:
+  backend:
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
