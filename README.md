@@ -18,8 +18,38 @@ You can found all the config files mounted in the docker-compose.yml
 
 ### Frontend
 1. - "./configs/radius/users:/etc/raddb/users"
+---
+            You can also add local users on the frontend if you like
+---
 1. - "./configs/radius/proxy.conf:/etc/raddb/proxy.conf"
+---
+            realm domain1.com {
+                type = radius
+                secret = testing123
+                authhost = freeradius1:1812
+	            accthost = freeradius1:1813
+                nostrip
+            }
+            realm domain2.com {
+                type = radius
+                secret = testing123
+                authhost = freeradius2:1812
+	            accthost = freeradius2:1813
+                nostrip
+            }
+            realm domain3.com {
+                type = radius
+                secret = testing123
+                authhost = freeradius3:1812
+	            accthost = freeradius3:1813
+                nostrip
+            }
+---
 1. - "./configs/radius/radiusd.conf:/etc/raddb/radiusd.conf"
+---
+    proxy_requests  = yes
+    $INCLUDE proxy.conf
+---
 
 ### Backend
 
